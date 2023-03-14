@@ -1,13 +1,9 @@
 package com.shivamrathi.bikeservice;
 
-import org.mapstruct.factory.Mappers;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.shivamrathi.bikeservice.dto.BikeServiceDto;
-import com.shivamrathi.bikeservice.dto.BikeServiceMapper;
-import com.shivamrathi.bikeservice.model.BikeServiceEntity;
 import com.shivamrathi.bikeservice.service.BikeService;
 
 @SpringBootApplication

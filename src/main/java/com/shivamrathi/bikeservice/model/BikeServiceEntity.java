@@ -1,6 +1,7 @@
 package com.shivamrathi.bikeservice.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -13,7 +14,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,11 +49,11 @@ public class BikeServiceEntity {
 
 	@Column(name = "created_date", nullable = false, unique = false)
 	@NotNull
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@Column(name = "updated_date", nullable = false, unique = false)
 	@NotNull
-	private LocalDate updatedDate;
+	private LocalDateTime updatedDate;
 
 	@Column(name = "bike_make", nullable = false, unique = false)
 	@NotBlank

@@ -4,26 +4,26 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.shivamrathi.bikeservice.model.BikeServiceEntity;
+import com.shivamrathi.bikeservice.dto.BikeServiceDto;
 
 @Service
 public interface IBikeService {
 
-	public BikeServiceEntity saveBikeServiceEntity(BikeServiceEntity bikeServiceEntity);
+	public BikeServiceDto saveBikeServiceEntity(BikeServiceDto bikeServiceDto);
 
-	public BikeServiceEntity findById(Long id);
+	public BikeServiceDto findById(Long id);
 
-	public BikeServiceEntity findByPhoneNumber(String phoneNumber);
+	public BikeServiceDto findByPhoneNumber(String phoneNumber);
 
-	public BikeServiceEntity findByBikeChassisNumber(String bikeChassisNumber);
+	public BikeServiceDto findByBikeChassisNumber(String bikeChassisNumber);
 
-	public BikeServiceEntity findByBikeRegistrationNumber(String bikeRegisterationNumber);
+	public BikeServiceDto findByBikeRegistrationNumber(String bikeRegisterationNumber);
 
-	public List<BikeServiceEntity> findByBikeMake(String bikeMake);
+	public List<BikeServiceDto> findByBikeMake(String bikeMake);
 
-	public List<BikeServiceEntity> findByModelName(String modelName);
+	public List<BikeServiceDto> findByModelName(String modelName);
 
-	public BikeServiceEntity updateBikeServiceEntity(Long id, BikeServiceEntity bikeServiceEntity);
+	public BikeServiceDto updateBikeServiceEntity(Long id, BikeServiceDto bikeServiceDto);
 
 	public void deleteBikeServiceEntity(Long id);
 }

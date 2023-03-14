@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shivamrathi.bikeservice.dto.BikeServiceDto;
-import com.shivamrathi.bikeservice.dto.BikeServiceMapper;
-import com.shivamrathi.bikeservice.model.BikeServiceEntity;
 import com.shivamrathi.bikeservice.service.BikeService;
 
 import jakarta.validation.Valid;
@@ -30,112 +28,134 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Validated
 @Slf4j
-public class BikeServiceController implements IBikeServiceController {
+public class BikeServiceController {
 	@Autowired
 	private BikeService bikeService;
-	@Autowired
-	private BikeServiceMapper mapper;
 
-	@Override
-	public ResponseEntity<?> createBikeServiceEntity(BikeServiceDto bikeServiceDto) {
+	@PostMapping(value = "/create")
+	public ResponseEntity<?> createBikeServiceEntity(@Valid @RequestBody BikeServiceDto bikeServiceDto) {
 
 		log.debug("/create ->>>");
 
 		log.debug("saving entity");
-		BikeServiceEntity savedEntity = bikeService
-				.saveBikeServiceEntity(mapper.bikeServiceDtoToBikeServiceEntity(bikeServiceDto));
+		BikeServiceDto savedDto = bikeService.saveBikeServiceEntity(bikeServiceDto);
 
 		log.debug("saved entity");
-		System.out.println(savedEntity);
+		System.out.println(savedDto);
 
-		if (savedEntity != null) {
-			return new ResponseEntity<BikeServiceEntity>(savedEntity, HttpStatus.CREATED);
+		if (savedDto != null) {
+			return new ResponseEntity<BikeServiceDto>(savedDto, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<String>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	public ResponseEntity<BikeServiceEntity> readBikeService(Long id) {
+	@GetMapping(value = "/read/{id}")
+	@ResponseBody
+	public ResponseEntity<BikeServiceDto> readBikeService(
+			@PathVariable("id") @Min(value = 0L, message = "Id can not be negative") Long id) {
 
 		log.debug("/read/{id} ->>>");
 
 		log.debug("Finding entity");
-		BikeServiceEntity bikeServiceEntity = bikeService.findById(id);
+		BikeServiceDto bikeServiceEntity = bikeService.findById(id);
 
 		log.debug("Found entity");
 		System.out.println(bikeServiceEntity);
 
-		return new ResponseEntity<BikeServiceEntity>(bikeServiceEntity, HttpStatus.OK);
+		return new ResponseEntity<BikeServiceDto>(bikeServiceEntity, HttpStatus.OK);
 	}
 
-	public ResponseEntity<BikeServiceEntity> readByBikeServiceByPhoneNumber(String phoneNumber) {
+	@GetMapping(value = "/read", params = "phoneNumber")
+	@ResponseBody
+	public ResponseEntity<BikeServiceDto> readByBikeServiceByPhoneNumber(
+			@RequestParam(value = "phoneNumber") @Pattern(regexp = "^[0-9]{10}$", message = "Phone number should be of 10 digits") String phoneNumber) {
 
 		log.debug("/read?phoneNumber=" + phoneNumber + " ->>>");
-		BikeServiceEntity bikeServiceEntity = bikeService.findByPhoneNumber(phoneNumber);
+		BikeServiceDto bikeServiceEntity = bikeService.findByPhoneNumber(phoneNumber);
 
 		log.debug("Found entity");
 		System.out.println(bikeServiceEntity);
 
-		return new ResponseEntity<BikeServiceEntity>(bikeServiceEntity, HttpStatus.OK);
+		return new ResponseEntity<BikeServiceDto>(bikeServiceEntity, HttpStatus.OK);
 	}
 
-	public ResponseEntity<BikeServiceEntity> readByBikeServiceByChassisNumber(String bikeChassisNumber) {
+	@GetMapping(value = "/read", params = "bikeChassisNumber")
+	@ResponseBody
+	public ResponseEntity<BikeServiceDto> readByBikeServiceByChassisNumber(
+			@RequestParam("bikeChassisNumber") @NotBlank(message = "Bike ChassisNumber cant not be blank") String bikeChassisNumber) {
 
 		log.debug("/read?bikeChassisNumber=" + bikeChassisNumber + " ->>>");
-		BikeServiceEntity bikeServiceEntity = bikeService.findByBikeChassisNumber(bikeChassisNumber);
+		BikeServiceDto bikeServiceEntity = bikeService.findByBikeChassisNumber(bikeChassisNumber);
 
 		log.debug("Found entity");
 		System.out.println(bikeServiceEntity);
 
-		return new ResponseEntity<BikeServiceEntity>(bikeServiceEntity, HttpStatus.OK);
+		return new ResponseEntity<BikeServiceDto>(bikeServiceEntity, HttpStatus.OK);
 	}
 
-	public ResponseEntity<BikeServiceEntity> readByBikeRegistrationNumber(String bikeRegistrationNumber) {
+	@GetMapping(value = "/read", params = "bikeRegistrationNumber")
+	@ResponseBody
+	public ResponseEntity<BikeServiceDto> readByBikeRegistrationNumber(
+			@RequestParam("bikeRegistrationNumber") @NotBlank(message = "Bike Registeration Number cant not be blank") String bikeRegistrationNumber) {
 
 		log.debug("/read?bikeRegistrationNumber=" + bikeRegistrationNumber + " ->>>");
-		BikeServiceEntity bikeServiceEntity = bikeService.findByBikeRegistrationNumber(bikeRegistrationNumber);
+		BikeServiceDto bikeServiceDto = bikeService.findByBikeRegistrationNumber(bikeRegistrationNumber);
 
 		log.debug("Found entity");
-		System.out.println(bikeServiceEntity);
+		System.out.println(bikeServiceDto);
 
-		return new ResponseEntity<BikeServiceEntity>(bikeServiceEntity, HttpStatus.OK);
+		return new ResponseEntity<BikeServiceDto>(bikeServiceDto, HttpStatus.OK);
 	}
 
-	public ResponseEntity<List<BikeServiceEntity>> readByBikeMake(String bikeMake) {
+	@GetMapping(value = "/read", params = "bikeMake")
+	@ResponseBody
+	public ResponseEntity<List<BikeServiceDto>> readByBikeMake(
+			@RequestParam("bikeMake") @NotBlank(message = "Bike Make can not be blank") String bikeMake) {
 
 		log.debug("/read?bikeMake=" + bikeMake + " ->>>");
-		List<BikeServiceEntity> bikeServiceEntityList = bikeService.findByBikeMake(bikeMake);
+		List<BikeServiceDto> bikeServiceDtoList = bikeService.findByBikeMake(bikeMake);
 
 		log.debug("Found entity List");
-		System.out.println(bikeServiceEntityList);
+		System.out.println(bikeServiceDtoList);
 
-		return new ResponseEntity<List<BikeServiceEntity>>(bikeServiceEntityList, HttpStatus.OK);
+		return new ResponseEntity<List<BikeServiceDto>>(bikeServiceDtoList, HttpStatus.OK);
 	}
 
-	public ResponseEntity<List<BikeServiceEntity>> readByModelName(String modelName) {
+	@GetMapping(value = "/read", params = "modelName")
+	@ResponseBody
+	public ResponseEntity<List<BikeServiceDto>> readByModelName(
+			@RequestParam("modelName") @NotBlank(message = "Model Name can not be blank") String modelName) {
 
 		log.debug("/read?modelName=" + modelName + " ->>>");
-		List<BikeServiceEntity> bikeServiceEntityList = bikeService.findByModelName(modelName);
+		List<BikeServiceDto> bikeServiceDtoList = bikeService.findByModelName(modelName);
 
 		log.debug("Found entity List");
-		System.out.println(bikeServiceEntityList);
+		System.out.println(bikeServiceDtoList);
 
-		return new ResponseEntity<List<BikeServiceEntity>>(bikeServiceEntityList, HttpStatus.OK);
+		return new ResponseEntity<List<BikeServiceDto>>(bikeServiceDtoList, HttpStatus.OK);
 	}
 
-	public ResponseEntity<BikeServiceEntity> updateBikeServiceEntity(Long id, BikeServiceDto bikeServiceDto) {
+	@PutMapping(value = "/update/{id}")
+	@ResponseBody
+	public ResponseEntity<BikeServiceDto> updateBikeServiceEntity(
+			@PathVariable("id") @Min(value = 0L, message = "Id can not be negative") Long id,
+			@Valid @RequestBody BikeServiceDto bikeServiceDto) {
 
 		log.debug("/update/{id} ->>>");
-		BikeServiceEntity bikeServiceEntity = bikeService.updateBikeServiceEntity(id,
-				mapper.bikeServiceDtoToBikeServiceEntity(bikeServiceDto));
+		System.out.println("bikeServiceDto ->>>" + bikeServiceDto);
+		BikeServiceDto updatedEntity = bikeService.updateBikeServiceEntity(id, bikeServiceDto);
 
 		log.debug("Updated entity");
-		System.out.println(bikeServiceEntity);
+		System.out.println(updatedEntity);
 
-		return new ResponseEntity<BikeServiceEntity>(bikeServiceEntity, HttpStatus.CREATED);
+		return new ResponseEntity<BikeServiceDto>(updatedEntity, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<String> deleteBikeServiceEntity(Long id) {
+	@DeleteMapping(value = "/delete/{id}")
+	@ResponseBody
+	public ResponseEntity<String> deleteBikeServiceEntity(
+			@PathVariable("id") @Min(value = 0L, message = "Id can not be negative") Long id) {
 
 		log.debug("/delete/{id} ->>>");
 		bikeService.deleteBikeServiceEntity(id);

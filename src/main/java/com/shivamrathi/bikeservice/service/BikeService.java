@@ -1,76 +1,84 @@
 package com.shivamrathi.bikeservice.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shivamrathi.bikeservice.model.BikeServiceEntity;
+import com.shivamrathi.bikeservice.dto.BikeServiceDto;
+import com.shivamrathi.bikeservice.dto.BikeServiceMapper;
 import com.shivamrathi.bikeservice.repository.BikeServiceRepository;
 
 @Service
 public class BikeService implements IBikeService {
 
 	@Autowired
-	BikeServiceRepository bikeServiceRepository;
+	BikeServiceRepository repository;
+
+	@Autowired
+	BikeServiceMapper mapper;
 
 	@Override
-	public BikeServiceEntity saveBikeServiceEntity(BikeServiceEntity bikeServiceEntity) {
-		return bikeServiceRepository.save(bikeServiceEntity);
+	public BikeServiceDto saveBikeServiceEntity(BikeServiceDto bikeServiceDto) {
+		bikeServiceDto.setCreatedDate(LocalDateTime.now());
+		bikeServiceDto.setUpdatedDate(LocalDateTime.now());
+		return mapper.entityToDto(repository.save(mapper.dtoToEntity(bikeServiceDto)));
 	}
 
 	@Override
-	public BikeServiceEntity findById(Long id) {
-		return bikeServiceRepository.findById(id).get();
+	public BikeServiceDto findById(Long id) {
+		return mapper.entityToDto(repository.findById(id).get());
 	}
 
 	@Override
-	public BikeServiceEntity findByPhoneNumber(String phoneNumber) {
-		return bikeServiceRepository.findByPhoneNumber(phoneNumber).get();
+	public BikeServiceDto findByPhoneNumber(String phoneNumber) {
+		return mapper.entityToDto(repository.findByPhoneNumber(phoneNumber).get());
 	}
 
 	@Override
-	public BikeServiceEntity findByBikeChassisNumber(String bikeChassisNumber) {
-		return bikeServiceRepository.findByBikeChassisNumber(bikeChassisNumber).get();
+	public BikeServiceDto findByBikeChassisNumber(String bikeChassisNumber) {
+		return mapper.entityToDto(repository.findByBikeChassisNumber(bikeChassisNumber).get());
 	}
 
 	@Override
-	public BikeServiceEntity findByBikeRegistrationNumber(String bikeRegisterationNumber) {
-		return bikeServiceRepository.findByBikeRegistrationNumber(bikeRegisterationNumber).get();
+	public BikeServiceDto findByBikeRegistrationNumber(String bikeRegisterationNumber) {
+		return mapper.entityToDto(repository.findByBikeRegistrationNumber(bikeRegisterationNumber).get());
 	}
 
 	@Override
-	public List<BikeServiceEntity> findByBikeMake(String bikeMake) {
-		return bikeServiceRepository.findByBikeMake(bikeMake).get();
+	public List<BikeServiceDto> findByBikeMake(String bikeMake) {
+		return repository.findByBikeMake(bikeMake).get().stream().map((entity) -> mapper.entityToDto(entity)).toList();
 	}
 
 	@Override
-	public List<BikeServiceEntity> findByModelName(String modelName) {
-		return bikeServiceRepository.findByModelName(modelName).get();
+	public List<BikeServiceDto> findByModelName(String modelName) {
+		return repository.findByModelName(modelName).get().stream().map((entity) -> mapper.entityToDto(entity))
+				.toList();
 	}
 
 	@Override
-	public BikeServiceEntity updateBikeServiceEntity(Long id, BikeServiceEntity bikeServiceEntity) {
-		BikeServiceEntity savedEntity = findById(id);
-		savedEntity.setAddress(bikeServiceEntity.getAddress());
-		savedEntity.setPhoneNumber(bikeServiceEntity.getPhoneNumber());
-		savedEntity.setGivenDate(bikeServiceEntity.getGivenDate());
-		savedEntity.setExpectedDeliveryDate(bikeServiceEntity.getExpectedDeliveryDate());
-		savedEntity.setCreatedDate(bikeServiceEntity.getCreatedDate());
-		savedEntity.setUpdatedDate(bikeServiceEntity.getUpdatedDate());
-		savedEntity.setBikeMake(bikeServiceEntity.getBikeMake());
-		savedEntity.setModelName(bikeServiceEntity.getModelName());
-		savedEntity.setBikeRegistrationNumber(bikeServiceEntity.getBikeRegistrationNumber());
-		savedEntity.setBikeChassisNumber(bikeServiceEntity.getBikeChassisNumber());
-		savedEntity.setKnownIssues(bikeServiceEntity.getKnownIssues());
-		savedEntity.setCost(bikeServiceEntity.getCost());
+	public BikeServiceDto updateBikeServiceEntity(Long id, BikeServiceDto bikeServiceDto) {
+//		BikeServiceDto savedDto = findById(id);
+//		savedDto.setAddress(bikeServiceDto.getAddress());
+//		savedDto.setPhoneNumber(bikeServiceDto.getPhoneNumber());
+//		savedDto.setGivenDate(bikeServiceDto.getGivenDate().toString());
+//		savedDto.setExpectedDeliveryDate(bikeServiceDto.getExpectedDeliveryDate().toString());
+//		savedDto.setCreatedDate(bikeServiceDto.getCreatedDate().toString());
+//		savedDto.setUpdatedDate(bikeServiceDto.getUpdatedDate().toString());
+//		savedDto.setBikeMake(bikeServiceDto.getBikeMake());
+//		savedDto.setModelName(bikeServiceDto.getModelName());
+//		savedDto.setBikeRegistrationNumber(bikeServiceDto.getBikeRegistrationNumber());
+//		savedDto.setBikeChassisNumber(bikeServiceDto.getBikeChassisNumber());
+//		savedDto.setKnownIssues(bikeServiceDto.getKnownIssues());
+//		savedDto.setCost(bikeServiceDto.getCost());
 
-		return bikeServiceRepository.save(savedEntity);
+		return mapper.entityToDto(repository.save(mapper.dtoToEntity(bikeServiceDto)));
 	}
 
 	@Override
 	public void deleteBikeServiceEntity(Long id) {
-		bikeServiceRepository.deleteById(id);
+		repository.deleteById(id);
 	}
 
 }
