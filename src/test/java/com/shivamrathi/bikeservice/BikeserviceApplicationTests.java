@@ -9,5 +9,4 @@ class BikeserviceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

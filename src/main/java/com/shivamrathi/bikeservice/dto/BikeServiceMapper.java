@@ -6,7 +6,7 @@ import com.shivamrathi.bikeservice.model.BikeServiceEntity;
 
 @Mapper(componentModel = "spring")
 public interface BikeServiceMapper {
-	BikeServiceEntity reqToEntity(RequestDto requestDto);
+	BikeServiceEntity dtoToEntity(BikeServiceDto bikeServiceDto);
 
-	ResponseDto entityToResp(BikeServiceEntity bikeServiceEntity);
+	BikeServiceDto entityToDto(BikeServiceEntity bikeServiceEntity);
 }

@@ -1,5 +1,8 @@
 package com.shivamrathi.bikeservice;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,6 +16,24 @@ public class BikeserviceApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(BikeserviceApplication.class, args);
 
 		BikeService bikeService = context.getBean(BikeService.class);
+		HashMap<Integer, String> map = new HashMap<>();
+
+		map.put(1, "one");
+		map.put(2, "two");
+		map.put(3, "three");
+
+		for (Integer key : map.keySet()) {
+			System.out.println("key= " + key);
+			System.out.println("value= " + map.get(key));
+		}
+
+		try {
+			System.out.println("try");
+		} finally {
+			
+		}
+		
+		
 //		BikeServiceMapper mapper = Mappers.getMapper(BikeServiceMapper.class);
 //
 //		BikeServiceDto dto = new BikeServiceDto();

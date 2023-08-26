@@ -35,12 +35,8 @@ public class BikeServiceController {
 	@PostMapping(value = "/create")
 	public ResponseEntity<?> createBikeServiceEntity(@Valid @RequestBody BikeServiceDto bikeServiceDto) {
 
-		log.debug("/create ->>>");
-
-		log.debug("saving entity");
 		BikeServiceDto savedDto = bikeService.saveBikeServiceEntity(bikeServiceDto);
 
-		log.debug("saved entity");
 		System.out.println(savedDto);
 
 		if (savedDto != null) {

@@ -51,8 +51,8 @@ public class BikeServiceEntity {
 	@NotNull
 	private LocalDateTime createdDate;
 
-	@Column(name = "updated_date", nullable = false, unique = false)
-	@NotNull
+	@Column(name = "updated_date", nullable = true, unique = false)
+//	@NotNull
 	private LocalDateTime updatedDate;
 
 	@Column(name = "bike_make", nullable = false, unique = false)

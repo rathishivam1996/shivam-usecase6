@@ -1,6 +1,7 @@
 package com.shivamrathi.bikeservice.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 
@@ -10,13 +11,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.AccessLevel;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Builder
-public class RequestDto {
+public class BikeServiceDto {
 
 	@Min(value = 0L, message = "Id can not be negative")
 	private Long id;
@@ -47,6 +48,14 @@ public class RequestDto {
 	@NotNull(message = "Expected Delivery Date can not be null")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate expectedDeliveryDate;
+
+//	@NotNull(message = "Created Date can not be null")
+	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
+	private LocalDateTime createdDate;
+
+//	@NotNull(message = "Updated Date can not be null")
+	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
+	private LocalDateTime updatedDate;
 
 	@NotBlank(message = "Bike Make can not be blank")
 	private String bikeMake;
@@ -79,4 +88,12 @@ public class RequestDto {
 	public void setExpectedDeliveryDate(String expectedDeliveryDate) {
 		this.expectedDeliveryDate = LocalDate.parse(expectedDeliveryDate, localDateFormatter);
 	}
+
+//	public void setCreatedDate(LocalDateTime createdDate) {
+//		this.createdDate = LocalDateTime.parse(createdDate, localDateTimeFormatter);
+//	}
+//
+//	public void setUpdatedDate(LocalDateTime updatedDate) {
+//		this.updatedDate = LocalDateTime.parse(updatedDate, localDateTimeFormatter);
+//	}
 }
